@@ -473,12 +473,26 @@ p { margin: 0 0 1em; }
 .olk-about__badge b { font-family: var(--display); font-size: 40px; color: var(--lime); display: block; line-height: 1; }
 .olk-about__badge span { font-size: 13px; color: rgba(255,255,255,0.7); }
 .olk-about h2 { font-size: clamp(28px, 3.6vw, 46px); margin-bottom: 20px; }
-.olk-about--single {
-	grid-template-columns: 1fr;
-	max-width: 860px;
-	margin: 0 auto;
+.olk-about__pills {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 22px 0 8px;
 }
-.olk-about__list { list-style: none; padding: 0; margin: 26px 0 30px; display: grid; gap: 14px; }
+.olk-about__pills span {
+	display: inline-flex;
+	align-items: center;
+	padding: 8px 14px;
+	border-radius: 100px;
+	background: #fff;
+	border: 1px solid var(--line);
+	color: var(--green-600);
+	font-family: var(--display);
+	font-size: 12.5px;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+}
+.olk-about__list { list-style: none; padding: 0; margin: 22px 0 30px; display: grid; gap: 14px; }
 .olk-about__list li { display: flex; gap: 14px; align-items: flex-start; font-weight: 500; color: var(--text); }
 .olk-about__list .tick { flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--lime-soft); color: var(--green-600); display: grid; place-items: center; margin-top: 2px; }
 .olk-about__list .tick svg { width: 15px; height: 15px; }
@@ -564,16 +578,61 @@ p { margin: 0 0 1em; }
 .olk-service:hover .olk-service__link svg { transform: translateX(5px); }
 
 /* ---------- Our works showcase ---------- */
-.olk-works__grid {
+.olk-works__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 18px;
+	flex-wrap: wrap;
+}
+.olk-works__head p {
+	margin: 0;
+	color: rgba(255,255,255,0.68);
+	font-size: 15px;
+}
+.olk-works__actions { display: flex; gap: 10px; }
+.olk-works__arrow {
+	width: 46px;
+	height: 46px;
+	border-radius: 50%;
+	border: 1px solid rgba(255,255,255,0.24);
+	background: rgba(255,255,255,0.08);
+	color: #fff;
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
+	place-items: center;
+	cursor: pointer;
+	transition: all 0.25s ease;
+}
+.olk-works__arrow svg { width: 18px; height: 18px; }
+.olk-works__arrow:hover {
+	background: var(--lime);
+	color: var(--ink);
+	border-color: var(--lime);
+}
+.olk-works__track {
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: minmax(260px, 300px);
 	gap: 18px;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	scroll-behavior: smooth;
+	padding-bottom: 4px;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+.olk-works__track::-webkit-scrollbar {
+	display: none;
+	width: 0;
+	height: 0;
 }
 .olk-work-card {
 	position: relative;
 	border-radius: 20px;
 	overflow: hidden;
 	min-height: 300px;
+	scroll-snap-align: start;
 	border: 1px solid rgba(255,255,255,0.16);
 	background: rgba(255,255,255,0.05);
 	transition: transform 0.35s var(--ease), border-color 0.35s, box-shadow 0.35s;
@@ -865,7 +924,6 @@ p { margin: 0 0 1em; }
 	.olk-stats { grid-template-columns: repeat(2, 1fr); }
 	.olk-team { grid-template-columns: repeat(2, 1fr); }
 	.olk-footer__grid { grid-template-columns: 1fr 1fr; }
-	.olk-works__grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 860px) {
 	.olk-nav, .olk-header__phone { display: none; }
@@ -886,5 +944,4 @@ p { margin: 0 0 1em; }
 	.olk-cta { text-align: center; justify-content: center; }
 	.olk-cta__actions { justify-content: center; }
 	.olk-topbar__left span:first-child { display: none; }
-	.olk-works__grid { grid-template-columns: 1fr; }
 }

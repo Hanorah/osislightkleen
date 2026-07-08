@@ -160,4 +160,24 @@
 	/* ---- Current year ---- */
 	$$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
+	/* ---- Works horizontal carousel (buttons only, no scrollbar) ---- */
+	(function () {
+		var track = $('#works-track');
+		if (!track) return;
+		var next = $('.olk-works__arrow--next');
+		var prev = $('.olk-works__arrow--prev');
+		var cards = $$('.olk-work-card', track);
+
+		function step() {
+			var first = cards[0];
+			return first ? first.getBoundingClientRect().width + 18 : 300;
+		}
+
+		if (next) next.addEventListener('click', function () {
+			track.scrollBy({ left: step(), behavior: 'smooth' });
+		});
+		if (prev) prev.addEventListener('click', function () {
+			track.scrollBy({ left: -step(), behavior: 'smooth' });
+		});
+	})();
 })();

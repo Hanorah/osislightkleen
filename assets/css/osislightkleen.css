@@ -157,6 +157,8 @@ section, header, footer, .olk-hero, .olk-section {
 	cursor: pointer;
 	transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), background 0.3s, color 0.3s, border-color 0.3s;
 	white-space: nowrap;
+	max-width: 100%;
+	box-sizing: border-box;
 }
 .olk-btn svg { width: 18px; height: 18px; transition: transform 0.35s var(--ease); }
 .olk-btn:hover { transform: translateY(-3px); }
@@ -1235,7 +1237,10 @@ section, header, footer, .olk-hero, .olk-section {
 	.olk-hero__rating small { font-size: 12px; }
 	.olk-stars svg { width: 14px; height: 14px; }
 
-	.olk-about__media { padding-bottom: 20px; max-width: 100%; }
+	.olk-about__media {
+		padding-bottom: 0;
+		max-width: 100%;
+	}
 	.olk-about__stack {
 		grid-template-columns: 1fr 0.9fr;
 		gap: 10px;
@@ -1243,12 +1248,14 @@ section, header, footer, .olk-hero, .olk-section {
 	.olk-about__stack .img-b { margin-top: 20px; }
 	.olk-about__media img { border-radius: 18px; }
 	.olk-about__badge {
+		position: absolute;
 		left: 50%;
-		bottom: 0;
+		bottom: 10px;
 		transform: translateX(-50%);
-		padding: 12px 16px;
+		padding: 12px 14px;
 		border-radius: 16px;
-		max-width: min(220px, calc(100% - 16px));
+		max-width: min(200px, calc(100% - 20px));
+		z-index: 3;
 	}
 	.olk-about__badge b { font-size: 26px; }
 	.olk-about__badge span { font-size: 11.5px; }
@@ -1300,8 +1307,31 @@ section, header, footer, .olk-hero, .olk-section {
 	.olk-testi__card { padding: 28px 20px; }
 	.olk-testi__quote { display: none; }
 	.olk-testi__text { font-size: 18px; }
-	.olk-faq__q { font-size: 16px; padding: 18px 16px; gap: 12px; }
-	.olk-faq__a p { padding: 0 16px 18px; }
+	.olk-faq {
+		max-width: 100%;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 10px;
+		align-items: start;
+	}
+	.olk-faq__q {
+		font-size: 13px;
+		padding: 14px 12px;
+		gap: 8px;
+		align-items: flex-start;
+		line-height: 1.35;
+	}
+	.olk-faq__icon {
+		width: 28px;
+		height: 28px;
+		margin-top: 0;
+	}
+	.olk-faq__icon svg { width: 14px; height: 14px; }
+	.olk-faq__a p {
+		padding: 0 12px 14px;
+		font-size: 13px;
+		line-height: 1.5;
+	}
 
 	.olk-contact__form,
 	.olk-contact__panel { padding: 24px 18px; }
@@ -1338,31 +1368,24 @@ section, header, footer, .olk-hero, .olk-section {
 		align-items: flex-start;
 	}
 	.olk-about__stack {
-		grid-template-columns: 1fr;
-		gap: 12px;
+		grid-template-columns: 1fr 0.85fr;
+		gap: 8px;
 	}
-	.olk-about__stack .img-b {
-		margin-top: 0;
-		aspect-ratio: 16 / 11;
-		max-height: 220px;
-		width: 100%;
-		object-fit: cover;
-	}
-	.olk-about__media .img-a {
-		aspect-ratio: 16 / 11;
-		max-height: 240px;
-	}
+	.olk-about__stack .img-b { margin-top: 16px; }
 	.olk-about__badge {
-		position: relative;
-		left: auto;
-		bottom: auto;
-		transform: none;
-		margin: 12px auto 0;
-		display: block;
-		max-width: 100%;
-		width: 100%;
+		position: absolute;
+		left: 50%;
+		bottom: 8px;
+		transform: translateX(-50%);
+		padding: 10px 12px;
+		max-width: min(170px, calc(100% - 16px));
+		margin: 0;
+		width: auto;
 	}
-	.olk-about__media { padding-bottom: 0; }
+	.olk-about__badge b { font-size: 22px; }
+	.olk-about__badge span { font-size: 10.5px; }
+	.olk-faq__q { font-size: 12px; padding: 12px 10px; }
+	.olk-faq__a p { font-size: 12px; padding: 0 10px 12px; }
 	.olk-works__track { grid-auto-columns: 86vw; }
 	.site-logo__text { font-size: 15px; }
 	.olk-topbar a { font-size: 11.5px; }

@@ -8,6 +8,113 @@
 	var $ = function (s, ctx) { return (ctx || doc).querySelector(s); };
 	var $$ = function (s, ctx) { return Array.prototype.slice.call((ctx || doc).querySelectorAll(s)); };
 
+	/* ---- Preloader (0–100%, waits for images) ---- */
+	(function () {
+		var preloader = $('#olk-preloader');
+		var pctEl = $('#olk-preloader-pct');
+		var barEl = $('#olk-preloader-bar');
+		if (!preloader) {
+			doc.body.classList.remove('is-loading');
+			return;
+		}
+
+		doc.body.classList.add('is-loading');
+		var progress = 0;
+		var display = 0;
+		var finished = false;
+		var assetsDone = false;
+		var rafId = 0;
+
+		function setProgress(n) {
+			progress = Math.max(progress, Math.min(100, Math.round(n)));
+		}
+
+		function paint() {
+			display += (progress - display) * 0.18;
+			if (assetsDone && display > 99.4) display = 100;
+			var shown = Math.floor(display);
+			if (pctEl) pctEl.textContent = shown + '%';
+			if (barEl) barEl.style.width = shown + '%';
+			if (display >= 100 && assetsDone) {
+				finish();
+				return;
+			}
+			rafId = requestAnimationFrame(paint);
+		}
+
+		function finish() {
+			if (finished) return;
+			finished = true;
+			cancelAnimationFrame(rafId);
+			if (pctEl) pctEl.textContent = '100%';
+			if (barEl) barEl.style.width = '100%';
+			window.setTimeout(function () {
+				preloader.classList.add('is-done');
+				doc.body.classList.remove('is-loading');
+				doc.dispatchEvent(new CustomEvent('olk:ready'));
+				window.setTimeout(function () {
+					if (preloader.parentNode) preloader.parentNode.removeChild(preloader);
+				}, 600);
+			}, 180);
+		}
+
+		function trackImages() {
+			var imgs = $$('img');
+			var total = imgs.length;
+			var loaded = 0;
+
+			function tick() {
+				loaded += 1;
+				if (total <= 0) {
+					setProgress(100);
+					assetsDone = true;
+					return;
+				}
+				setProgress(Math.min(96, (loaded / total) * 96));
+				if (loaded >= total) {
+					setProgress(100);
+					assetsDone = true;
+				}
+			}
+
+			if (!total) {
+				setProgress(100);
+				assetsDone = true;
+				return;
+			}
+
+			imgs.forEach(function (img) {
+				if (img.complete && img.naturalWidth > 0) {
+					tick();
+					return;
+				}
+				var done = false;
+				function once() {
+					if (done) return;
+					done = true;
+					tick();
+				}
+				img.addEventListener('load', once);
+				img.addEventListener('error', once);
+			});
+		}
+
+		setProgress(4);
+		paint();
+		trackImages();
+
+		window.addEventListener('load', function () {
+			setProgress(100);
+			assetsDone = true;
+		});
+
+		/* Safety: never soft-lock the page */
+		window.setTimeout(function () {
+			setProgress(100);
+			assetsDone = true;
+		}, 10000);
+	})();
+
 	/* ---- Header scroll state + scroll-to-top ---- */
 	var header = $('.olk-header');
 	var toTop = $('.olk-totop');
@@ -41,17 +148,25 @@
 		if (href === path || (path === '' && href === 'index.html')) a.classList.add('active');
 	});
 
-	/* ---- Scroll reveal ---- */
-	var reveals = $$('.reveal');
-	if ('IntersectionObserver' in window && reveals.length) {
-		var io = new IntersectionObserver(function (entries) {
-			entries.forEach(function (e) {
-				if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
-			});
-		}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-		reveals.forEach(function (el) { io.observe(el); });
+	/* ---- Scroll reveal (after preloader so content isn't blank) ---- */
+	function initReveals() {
+		var reveals = $$('.reveal');
+		if (!reveals.length) return;
+		if ('IntersectionObserver' in window) {
+			var io = new IntersectionObserver(function (entries) {
+				entries.forEach(function (e) {
+					if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+				});
+			}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+			reveals.forEach(function (el) { io.observe(el); });
+		} else {
+			reveals.forEach(function (el) { el.classList.add('is-visible'); });
+		}
+	}
+	if ($('#olk-preloader')) {
+		doc.addEventListener('olk:ready', initReveals, { once: true });
 	} else {
-		reveals.forEach(function (el) { el.classList.add('is-visible'); });
+		initReveals();
 	}
 
 	/* ---- Animated counters ---- */

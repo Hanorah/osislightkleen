@@ -1318,8 +1318,10 @@ section, header, footer, .olk-hero, .olk-section {
 	.olk-section__header h2 { font-size: clamp(26px, 7vw, 34px); }
 	.olk-section__header p { font-size: 15.5px; }
 	.olk-feature-list__item { gap: 14px; }
+	.olk-feature-list__item:hover { transform: none; }
 	.olk-stats { gap: 20px 12px; }
 	.olk-stat b { font-size: clamp(28px, 8vw, 40px); }
+	.olk-stat { padding: 22px 16px; }
 }
 
 @media (max-width: 400px) {

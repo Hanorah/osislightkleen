@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://osislightkleen.com/sitemap.xml
+Sitemap: https://osislight.com/sitemap.xml

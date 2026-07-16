@@ -8,6 +8,20 @@
 	var $ = function (s, ctx) { return (ctx || doc).querySelector(s); };
 	var $$ = function (s, ctx) { return Array.prototype.slice.call((ctx || doc).querySelectorAll(s)); };
 
+	/* ---- Preloader ---- */
+	var preloader = $('.olk-preloader');
+	function hidePreloader() {
+		if (!preloader || preloader.classList.contains('is-done')) return;
+		preloader.classList.add('is-done');
+		setTimeout(function () {
+			if (preloader && preloader.parentNode) preloader.parentNode.removeChild(preloader);
+		}, 400);
+	}
+	window.addEventListener('load', function () {
+		setTimeout(hidePreloader, 400);
+	});
+	setTimeout(hidePreloader, 2200);
+
 	/* ---- Header scroll state + scroll-to-top ---- */
 	var header = $('.olk-header');
 	var toTop = $('.olk-totop');

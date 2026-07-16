@@ -38,6 +38,33 @@
 	--ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* ---------- Preloader ---------- */
+.olk-preloader {
+	position: fixed;
+	inset: 0;
+	z-index: 9999;
+	display: grid;
+	place-items: center;
+	background: var(--pine);
+	transition: opacity 0.35s var(--ease), visibility 0.35s;
+}
+.olk-preloader.is-done {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+}
+.olk-preloader__spinner {
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	border: 3px solid rgba(255, 255, 255, 0.18);
+	border-top-color: var(--lime);
+	animation: olk-spin 0.7s linear infinite;
+}
+@keyframes olk-spin {
+	to { transform: rotate(360deg); }
+}
+
 /* ---------- Reset & Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -946,8 +973,22 @@ section, header, footer, .olk-hero, .olk-section {
 }
 .olk-page-hero::before { content: ""; position: absolute; top: -30%; left: 50%; transform: translateX(-50%); width: 700px; height: 500px; background: radial-gradient(circle, rgba(31,122,77,0.5), transparent 66%); }
 .olk-page-hero__inner { position: relative; z-index: 2; }
-.olk-page-hero h1 { color: #fff; font-size: clamp(36px, 5.5vw, 66px); margin-bottom: 16px; }
-.olk-page-hero p { color: rgba(255,255,255,0.72); font-size: 19px; max-width: 560px; margin: 0 auto 22px; }
+.olk-page-hero h1 {
+	color: #fff;
+	font-size: clamp(36px, 5.5vw, 66px);
+	margin-bottom: 16px;
+	text-wrap: balance;
+	max-width: 14em;
+	margin-left: auto;
+	margin-right: auto;
+}
+.olk-page-hero p {
+	color: rgba(255,255,255,0.72);
+	font-size: 19px;
+	max-width: 560px;
+	margin: 0 auto 22px;
+	text-wrap: pretty;
+}
 .olk-breadcrumb { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; color: rgba(255,255,255,0.6); }
 .olk-breadcrumb a { color: var(--lime); }
 .olk-breadcrumb svg { width: 14px; height: 14px; }
@@ -1219,7 +1260,58 @@ section, header, footer, .olk-hero, .olk-section {
 		bottom: -4px;
 	}
 	.olk-credentials { grid-template-columns: 1fr; }
-	.olk-page-hero h1 { font-size: clamp(30px, 8vw, 48px); }
+	.olk-page-hero {
+		padding: 48px 0 40px;
+		text-align: left;
+	}
+	.olk-page-hero__inner {
+		padding: 0 4px;
+	}
+	.olk-page-hero h1 {
+		font-size: clamp(28px, 8vw, 40px);
+		max-width: none;
+		line-height: 1.2;
+		letter-spacing: -0.03em;
+		text-align: left;
+		text-wrap: balance;
+	}
+	.olk-page-hero p {
+		font-size: 15.5px;
+		line-height: 1.55;
+		margin-left: 0;
+		margin-right: 0;
+		max-width: none;
+		text-align: left;
+	}
+	.olk-page-hero .olk-breadcrumb {
+		justify-content: flex-start;
+	}
+	.olk-hero h1,
+	.olk-section__header h2,
+	.olk-about h2,
+	.olk-ceo h2,
+	.olk-cta__text h2,
+	.olk-split h2 {
+		text-wrap: balance;
+	}
+	.olk-hero p,
+	.olk-section__header p,
+	.olk-about__text p,
+	.olk-ceo__text p,
+	.olk-cta__text p,
+	.olk-lead {
+		text-wrap: pretty;
+		overflow-wrap: break-word;
+		hyphens: auto;
+	}
+	.olk-section__header {
+		text-align: left;
+	}
+	.olk-section__header p {
+		margin-left: 0;
+		margin-right: 0;
+		max-width: none;
+	}
 	.olk-cta { flex-direction: column; align-items: flex-start; }
 	.olk-hero__label {
 		font-size: 12px;
